@@ -13,7 +13,6 @@ Day-0
  I installed Yosys using the following commands:
  
 ```
-
 git clone https://github.com/YosysHQ/yosys.git
 cd yosys-master 
 sudo apt install make 
@@ -93,3 +92,28 @@ Below is the screenshot showing sucessful installation:
 
 ![Screenshot from 2023-07-31 19-00-53](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/4f8b2756-fa2a-4e9a-8a06-1b7a7fdc6d5c)
 </details>
+
+<details>
+ <summary> OpenLANE </summary>
+
+
+ I installed gtkwave using the following command:
+ 
+  ```sudo apt-get update
+sudo apt-get upgrade
+sudo apt install -y build-essential python3 python3-venv python3-pip make git
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+sudo docker run hello-world
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo reboot
+ ```
+ Below is the screenshot showing sucessful installation:
+
+ ![Screenshot from 2023-07-31 19-33-48](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/82feea18-9b24-4377-83bd-ccafdd2205c5)
+ </details>
+ 
