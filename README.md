@@ -6,13 +6,13 @@ Quick links:
 
 [Week-1](#Week-1)
 
-* [Day-1 : Installation of required Software Tools](#Day-1 : Installation of required Software Tools)
+* [Day-1 : Installation of required Software Tools](#Day-1----Installation-of-required-Software-Tools)
 
-* [Day-2](#Day-2)
+* [Day-2 : Introduction to simulation and sythesis using software tools](#Day-2----Introduction-to-simulation-and-sythesis-using-software-tools)
 
-[Acknowledgement](#acknowledgement)
+[Acknowledgement](#Acknowledgement)
 
-[Reference](#reference)
+[Reference](#Reference)
 
 
 ## Day-1 : Installation of required Software Tools
