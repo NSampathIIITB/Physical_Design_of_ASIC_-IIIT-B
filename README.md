@@ -6,9 +6,9 @@ This github repository summarises the progress made in the Physical Design of AS
 
 [Day-2](#day-2)
 
-[Acknowledgement](#Acknowledgement)
+[Acknowledgement](#acknowledgement)
 
-[Reference](#Reference)
+[Reference](#reference)
 
 
 ## Day-1 
