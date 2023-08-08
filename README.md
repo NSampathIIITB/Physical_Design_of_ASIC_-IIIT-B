@@ -2,9 +2,9 @@
 
 This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
 
-[Day-1](#Day-1)
+[Day-1](#day-1)
 
-[Day-2](#Day-2)
+[Day-2](#day-2)
 
 [Acknowledgement](#Acknowledgement)
 
@@ -12,7 +12,6 @@ This github repository summarises the progress made in the Physical Design of AS
 
 
 ## Day-1 
-
 <details>
  <summary> Summary </summary>
  
