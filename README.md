@@ -1,10 +1,20 @@
 # Physical_Design_of_ASIC_-IIIT-B
 
-This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
+This github repository summarises the progress made in the Physical Design of ASIC program. 
+
+Quick links:
+
+[Day-1](#day-1)
+
+[Day-2](#day-2)
+
+[Acknowledgement](#acknowledgement)
+
+[Reference](#reference)
 
 Week-1
 
-Day-0
+## Day-1
 
 <details>
  <summary> Yosys </summary>
