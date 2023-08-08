@@ -4,17 +4,18 @@ This github repository summarises the progress made in the Physical Design of AS
 
 Quick links:
 
-[Day-1](#day-1)
+[Week-1] (#Week-1)
 
-[Day-2](#day-2)
+      [Day-1](#day-1)
+
+      [Day-2](#day-2)
 
 [Acknowledgement](#acknowledgement)
 
 [Reference](#reference)
 
-Week-1
 
-## Day-1
+## Day-1 : Installation of required Softwares
 
 <details>
  <summary> Yosys </summary>
@@ -126,6 +127,33 @@ sudo reboot
 
  ![Screenshot from 2023-07-31 19-33-48](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/82feea18-9b24-4377-83bd-ccafdd2205c5)
  </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ## Acknowledgement
+ 
+- Kunal Ghosh, VSD Corp. Pvt. Ltd.
+- Skywater Foundry
+- Kanish R,Colleague,IIIT B
+- DantuNandini,Senior,IIIT B
+- Mariam Rakka
+
+  
+## Reference 
+
+- https://github.com/kunalg123
  
  
 
