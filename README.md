@@ -4,11 +4,9 @@ This github repository summarises the progress made in the Physical Design of AS
 
 Quick links:
 
-[Week-1](#Week-1)
+[Day-1 : Installation of required Software Tools](#Day-1----Installation-of-required-Software-Tools)
 
-* [Day-1 : Installation of required Software Tools](#Day-1----Installation-of-required-Software-Tools)
-
-* [Day-2 : Introduction to simulation and sythesis using software tools](#Day-2----Introduction-to-simulation-and-sythesis-using-software-tools)
+[Day-2 : Introduction to simulation and sythesis using software tools](#Day-2----Introduction-to-simulation-and-sythesis-using-software-tools)
 
 [Acknowledgement](#Acknowledgement)
 
