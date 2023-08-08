@@ -13,7 +13,7 @@ Quick links:
 [Reference](#Reference)
 
 
-## Day-1 : Installation of required Software Tools
+##Day-1 : Installation of required Software Tools
 
 <details>
  <summary> Yosys </summary>
