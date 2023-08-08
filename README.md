@@ -1,4 +1,4 @@
-# Physical_Design_of_ASIC_-IIIT-B
+# Physical_Design_of_ASIC_IIIT-B
 
 This github repository summarises the progress made in the Physical Design of ASIC program. 
 
