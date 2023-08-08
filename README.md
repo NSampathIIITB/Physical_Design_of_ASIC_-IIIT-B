@@ -6,7 +6,7 @@ Quick links:
 
 [Week-1](#Week-1)
 
-* [Day-1](#Day-1)
+* [Day-1 : Installation of required Software Tools](#Day-1 : Installation of required Software Tools)
 
 * [Day-2](#Day-2)
 
@@ -15,7 +15,7 @@ Quick links:
 [Reference](#reference)
 
 
-## Day-1 : Installation of required Softwares
+## Day-1 : Installation of required Software Tools
 
 <details>
  <summary> Yosys </summary>
