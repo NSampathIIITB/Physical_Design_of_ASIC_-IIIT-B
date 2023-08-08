@@ -15,7 +15,12 @@ Quick links:
 
 ## Day-1 
 
-Installation of required Software Tools
+<details>
+ <summary> Summary </summary>
+	
+I installed all the needed tools.
+
+</details>	
 
 <details>
  <summary> Yosys </summary>
