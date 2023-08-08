@@ -6,9 +6,9 @@ Quick links:
 
 [Week-1](#Week-1)
 
-      [Day-1](#day-1)
+      [Day-1](#Day-1)
 
-      [Day-2](#day-2)
+      [Day-2](#Day-2)
 
 [Acknowledgement](#acknowledgement)
 
