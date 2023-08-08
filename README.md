@@ -4,7 +4,7 @@ This github repository summarises the progress made in the Physical Design of AS
 
 Quick links:
 
-[Week-1] (#Week-1)
+[Week-1](#Week-1)
 
       [Day-1](#day-1)
 
