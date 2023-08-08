@@ -17,8 +17,9 @@ Quick links:
 
 <details>
  <summary> Summary </summary>
+ 
 	
-I installed all the needed tools.
+I installed all the needed Software tools.
 
 </details>	
 
