@@ -4,16 +4,18 @@ This github repository summarises the progress made in the Physical Design of AS
 
 Quick links:
 
-[Day-1 : Installation of required Software Tools](#Day-1----Installation-of-required-Software-Tools)
+[Day-1](#Day-1)
 
-[Day-2 : Introduction to simulation and sythesis using software tools](#Day-2----Introduction-to-simulation-and-sythesis-using-software-tools)
+[Day-2](#Day-2)
 
 [Acknowledgement](#Acknowledgement)
 
 [Reference](#Reference)
 
 
-##Day-1 : Installation of required Software Tools
+## Day-1 
+
+Installation of required Software Tools
 
 <details>
  <summary> Yosys </summary>
