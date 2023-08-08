@@ -4,16 +4,16 @@ This github repository summarises the progress made in the Physical Design of AS
 
 Quick links:
 
-[Day-1](#Day-1)
+[Day 1](#Day-1)
 
-[Day-2](#Day-2)
+[Day 2](#Day-2)
 
 [Acknowledgement](#Acknowledgement)
 
 [Reference](#Reference)
 
 
-## Day-1 
+## Day 1 
 
 <details>
  <summary> Summary </summary>
