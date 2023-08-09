@@ -136,7 +136,7 @@ sudo reboot
  <details>
  <summary> Summary </summary>
  
-	Introduction to Simulation and Synthesis.
+Introduction to Simulation and Synthesis.
 
 
 </details>	
