@@ -2,16 +2,16 @@
 
 This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
 
-[Day-1](#day-1)
+[Day-0](#day-0)
 
-[Day-2](#day-2)
+[Day-1](#day-1)
 
 [Acknowledgement](#acknowledgement)
 
 [Reference](#reference)
 
 
-## Day-1 
+## Day-0 
 <details>
  <summary> Summary </summary>
  
@@ -131,12 +131,20 @@ sudo reboot
  ![Screenshot from 2023-07-31 19-33-48](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/82feea18-9b24-4377-83bd-ccafdd2205c5)
  </details>
 
- ## Day-2
+ ## Day-1
 
  <details>
  <summary> Summary </summary>
  
 Introduction to Simulation and Synthesis.
+
+**Simulation** : Simulation is a technique of applying different input stimulus to the design at different times to check if the RTL Code behaves the intended way.This helps finding and fixing bugs in the RTL design in the early stages of design development. Simulator is the tool for checking the design.
+
+**How Simulator works**:
+1.Simulator looks for changes in the Input signals.
+2.Upon change to the input the output is evaluated.
+
+![simulation](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/fc74f1f0-7025-4394-bb5c-8ac48d62d4ba)
 
 
 </details>	
