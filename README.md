@@ -6,6 +6,8 @@ This github repository summarises the progress made in the Physical Design of AS
 
 [Day-1 : Introduction to Simulation and Synthesis using Iverilog, GTKWave and Yosys](#day-1)
 
+
+
 [Acknowledgement](#acknowledgement)
 
 [Reference](#reference)
@@ -135,24 +137,13 @@ sudo reboot
 
  <details>
  <summary> Summary </summary>
- 
- 
-Introduction to Simulation using iverilog and gtkwave.
 
-**Simulation** : Simulation is a technique of applying different input stimulus to the design at different times to check if the RTL Code behaves the intended way.This helps finding and fixing bugs in the RTL design in the early stages of design development. Simulator is the tool for checking the design.
-
-**How Simulator works**:
-1.Simulator looks for changes in the Input signals.
-2.Upon change to the input the output is evaluated.
-
-![simulation](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/fc74f1f0-7025-4394-bb5c-8ac48d62d4ba)
-
-
-
-**What is an RTL Design**:
-
+ This section gives a brief explanation about Simulation and Synthesis.
 
 </details>	
+
+**Simulation**: I
+
  
 
 
