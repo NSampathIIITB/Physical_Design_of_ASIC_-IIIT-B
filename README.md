@@ -400,7 +400,7 @@ generate netlists for the specified cell library using the liberty file format.<
 ```
 cd ASIC/sky130RTLDesignAndSynthesisWorkshop/lib/gvim sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
-![Screenshot from 2023-08-09 16-45-34](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ae5063ae-3b34-44e1-9856-8e45e5a81b0e)
+![Screenshot from 2023-08-09 16-32-14](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/3211e9a1-aafb-4790-8a14-dbde553f55a6)
 
 This lab guides us through the .lib files where we have all the gates coded in. According to the below parameters the libraries will be characterized to model the variations.
 
