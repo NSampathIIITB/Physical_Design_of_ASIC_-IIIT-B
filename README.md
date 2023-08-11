@@ -1,4 +1,4 @@
-# Physical_Design_of_ASIC_IIIT-B
+i# Physical_Design_of_ASIC_IIIT-B
 
 This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
 
@@ -337,7 +337,7 @@ Below is an illustration of Synthesis.
 </details>
  
  <details>
- <summary> Synthesis of 2x1 Mux using Yosys </summary>
+ <summary> Synthesis of 2x1 Mux netlist using Yosys </summary>
 
  These are the following commands that I used in Yosys.
  
