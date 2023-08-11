@@ -142,7 +142,25 @@ sudo reboot
 
 </details>	
 
-**Simulation**: I
+<b> Simulator: </b> It is a tool used to check if it adheres to the designed specs by simualting the code. <br>
+<br>
+<b> Design: </b> It is the actual verilog code or set of verilog codes which has the intended functionality to meet with the required functionality/speciifications. Design file contains one or more input/output ports.<br>
+<br>
+<b> TestBench: </b> It is the setup to apply stimulus to the design to check its functionality. Testbench doesnot contain any input/output ports. <br>
+<br>
+<b> How does a Simulator Works ? </b> <br>
+- Simulator looks for change on the input signal to produce a output signal.<br>
+- Upon change in the input signal the output signal is evaluated. i.e, If there is no change in input the output will not be evaluated.<br>
+<br>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62461290/183845210-c3b9712f-c56f-4d62-98d4-34d22ad78f10.png"> <br>
+General Simulation Flow
+</p>
+<br>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62461290/183845405-c8a1de5c-f949-4962-9952-6bf8e68c164f.png"> <br>
+iVerilog Based Simulation Flow
+</p>
 
  
 
