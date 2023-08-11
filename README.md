@@ -6,6 +6,10 @@ This github repository summarises the progress made in the Physical Design of AS
 
 [Day-1 : Introduction to Simulation and Synthesis using Iverilog, GTKWave and Yosys](#day-1)
 
+[Day-2 : Timing libs, Hierarchical vs Flat synthesis and Efficient flop coding style](#day-2)
+
+[Day-3 : Combinational and Sequential Optmizations](#day-3)
+
 
 
 [Acknowledgement](#acknowledgement)
@@ -134,7 +138,13 @@ sudo reboot
  </details>
 
  ## Day-1
+ <details>
+ <summary> Summary </summary>
+	 
+ In this class we had briefly discussed about Simulation and Synthesis and we also performed simulation and synthesis of 2x1 Mux using Iverilog ,GTKWave and Yosys.
 
+ </details>
+ 
  <details>
  <summary> Simulation </summary>
 
@@ -339,7 +349,10 @@ read_verilog good_mux.v
 synth -top good_mux
 bc -liberty /home/nsaisampath/vsd/VLSI/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 show
-write_verilog -noattr good_mux_netlist.v
+write_verilog good_mux_netlist.v 
+!vim good_mux_netlist.v 
+ write_verilog -noattr good_mux_netlist.v
+ !vim good_mux_netlist.v
 ```
 
 **read_liberty**- Read cells from liberty file as modules into current design. The ***-lib*** switch creates empty blackbox modules.</br>
@@ -377,17 +390,74 @@ generate netlists for the specified cell library using the liberty file format.<
 ![Screenshot from 2023-08-09 11-20-48](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/99b31ffd-27d9-4090-a4e2-ea8a9e48758f)
 
 
-
-
-
-
-
-
-
-
-
-
 </details>	
+
+## Day-2
+<details>
+ <summary> Exploring the Timing.lib files </summary>
+	
+ To view the contents inside the .lib file type the following command :
+```
+cd ASIC/sky130RTLDesignAndSynthesisWorkshop/lib/gvim sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+![Screenshot from 2023-08-09 16-45-34](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ae5063ae-3b34-44e1-9856-8e45e5a81b0e)
+
+This lab guides us through the .lib files where we have all the gates coded in. According to the below parameters the libraries will be characterized to model the variations.
+
+![lib1](https://user-images.githubusercontent.com/104454253/166105787-19a638a3-fe01-4fcf-828d-0b56a6acb8f7.JPG)
+
+With in the lib file, the gates are delared as follows to meet the variations due to process, temperatures and voltages.
+
+ **Different flavour cells in the .lib:**
+ ![Screenshot from 2023-08-09 16-45-34](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/cae6da02-a104-4166-90b5-0c619b0ed09b)
+ 
+This image displays the power consumtion comparision.
+
+![lib5](https://user-images.githubusercontent.com/104454253/166107259-6fa398a4-2099-4da3-9b93-818c2c3f2404.JPG)
+
+Below image is the delay order for the different flavor of gates.
+
+![delay_libraries](https://user-images.githubusercontent.com/104454253/166187423-d21465e1-abc3-4ad0-a534-60f8e706ab6f.JPG)
+
+
+</details>
+
+<details>
+<summary> Hiererchical Synthesis and Flat Synthesis </summary>
+	
+Hierarchical synthesis is breaking a complex modules into smaller, more manageable sub-modules or blocks. Each of these sub-modules can be synthesized or designed independently before being integrated into the larger system. This approach allows for efficient design, optimization, and verification of individual components while maintaining a structured and organized design process. An illustration of the hierarchical synthesis is shown below :
+
+Consider the verilog file multiple module which is given in the verilog_files directory
+ ```
+module sub_module2 (input a, input b, output y);
+	assign y = a | b;
+endmodule
+
+module sub_module1 (input a, input b, output y);
+	assign y = a&b;
+endmodule
+
+
+module multiple_modules (input a, input b, input c , output y);
+	wire net1;
+	sub_module1 u1(.a(a),.b(b),.y(net1));  //net1 = a&b
+	sub_module2 u2(.a(net1),.b(c),.y(y));  //y = net1|c ,ie y = a&b + c;
+endmodule
+ ```
+
+
+ 
+</details>
+
+
+## Day-3
+<details>
+
+
+
+
+ 
+</details>
 
  ## Acknowledgement
  
