@@ -2,7 +2,7 @@
 
 This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
 
-[Day-0:Installation of required Tools](#day-0-installation-of-reqired-tools)
+[Day-0 : Installation of required Tools](#day-0--installation-of-reqired-tools)
 
 [Day-1](#day-1)
 
