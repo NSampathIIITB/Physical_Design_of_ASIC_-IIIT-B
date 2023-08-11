@@ -2,9 +2,9 @@
 
 This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
 
-[Day-0 : Installation of required Tools](#day-0)
+[Day-0 : Installation of required Software Tools](#day-0)
 
-[Day-1](#day-1)
+[Day-1 : Introduction to Simulation and Synthesis using Iverilog, GTKWave and Yosys](#day-1)
 
 [Acknowledgement](#acknowledgement)
 
@@ -64,10 +64,10 @@ Below is the screenshot showing sucessful installation:
 </details>
 
 <details>
- <summary> iverilog </summary>
+ <summary> Iverilog </summary>
 
 
- I installed iverilog using the following command:
+ I installed Iverilog using the following command:
   ```
 sudo apt-get install iverilog
  ```
@@ -77,10 +77,10 @@ sudo apt-get install iverilog
 </details>
 
 <details>
- <summary> gtkwave </summary>
+ <summary> GTKWave </summary>
 
 
- I installed gtkwave using the following command:
+ I installed GTKWave using the following command:
   ```
 sudo apt-get install gtkwave
  ```
