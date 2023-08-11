@@ -2,7 +2,7 @@
 
 This github repository summarises the progress made in the Physical Design of ASIC program. Quick links:
 
-[Day-0](#day-0)
+[Day-0:Installation of required Tools](#day-0-Installation-of-reqired-Tools)
 
 [Day-1](#day-1)
 
@@ -11,7 +11,7 @@ This github repository summarises the progress made in the Physical Design of AS
 [Reference](#reference)
 
 
-## Day-0 
+## Day-0:Installation of required Tools
 <details>
  <summary> Summary </summary>
  
