@@ -11,7 +11,7 @@ This github repository summarises the progress made in the Physical Design of AS
 [Reference](#reference)
 
 
-## Day-0 : Installation of required Tools
+## Day-0 
 <details>
  <summary> Summary </summary>
  
