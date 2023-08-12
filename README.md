@@ -686,8 +686,7 @@ To curb this drawback, we are going for flops to store the data from the cominat
 
 
 **d-flipflop with synchronous reset**- Here the output **q** goes low whenever reset is high and at the positive edge of the clock. Here the reset of the output depends on the clock.
-
-![WhatsApp Image 2023-08-12 at 14 55 20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/93ebc063-9444-4103-aee5-9707fb8cc47c)
+![WhatsApp Image 2023-08-12 at 14 55 20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/db67d086-fcff-4943-ab90-e690a54ba549)
 
 	module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
 		always @ (posedge clk )
