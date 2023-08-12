@@ -694,7 +694,6 @@ To curb this drawback, we are going for flops to store the data from the cominat
 
 
 
-
  ## Acknowledgement
  
 - Kunal Ghosh, VSD Corp. Pvt. Ltd.
