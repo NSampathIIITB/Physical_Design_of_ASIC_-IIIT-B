@@ -771,7 +771,123 @@ Special case of multiplying **a** with **9**. The result is shown in the below i
 
 ## Day-3
 <details>
+<summary> Introduction to Logic Optimisation</summary>
+	
+Logic optimization in VLSI ASIC flow refers to the process of simplifying and reducing the complexity of a digital circuit design in order to improve its performance and reduce its power consumption. This is typically done by applying various techniques such as Boolean algebra, algebraic manipulation, and circuit simplification. The goal of logic optimization is to minimize the number of gates and transistors required to implement the circuit, while still maintaining its functionality. This can help to reduce the overall cost and power consumption of the ASIC, as well as improve its performance and reliability.
 
+There are two types of logic optimisations</br>
+1. Combinational logic optimisation</br>
+2. Sequential logic optimisation</br>
+
+</details>
+
+<details>
+<summary> Combinational Logic Optimisation</summary>
+
+	
+**Why Combinational logic Optimisation:**
+
+ Combinational logic optimisation is mainly used to squeeze the logic to get the most optimised design .The most optimised design will be efficient interms of **area and power savings**. </br>
+
+**Techniques used for combinational logic optimisation:** </br>
+
+1. Constant Propogation which is Direct optimisation technique</br>
+2. Boolean logic optimisation using K-maps or Quine McKluskey</br>
+
+**Example of Combinational logic optimisation**
+
+![WhatsApp Image 2023-08-12 at 21 14 18](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b7a076a0-187d-4594-bf1e-b14f5a2e0e0b)
+
+In the above example, if we considor the trasnsistor level circuit of output Y, it has 6 MOS trasistors and when it changes to invertor, only 2 transistors will be sufficient. This is achieved by considering  A as contstant and propagating the same to output.
+
+**Example of Boolean logic optimisation**
+
+![WhatsApp Image 2023-08-12 at 21 20 05](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/c44e057c-30e0-4cc9-a711-51277d2016ff)
+
+Here we have considered an concurrent statement assign **y=a?(b?c:(c?a:0)):(!c)**
+
+The above expression is using a ternary operator which realizes a series of multiplexers, however, when we write the boolean expression at outputs of each mux and simplify them further using boolean reduction techniques, the outout **y** turns out be just **~(a^c)**
+
+Command to optimize the circuit by yosys is yosys> **opt_clean -purge**
+
+**The following codes are optimised and the synthesis circuits are generated automatically.**
+
+```
+module opt_check (input a , input b , output y);
+	assign y = a?b:0;
+endmodule
+```
+![Screenshot from 2023-08-12 21-50-16](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/57d79aef-7031-40bf-8451-1ad73a7f5e12)
+<br>
+
+```
+module opt_check2 (input a , input b , output y);
+	assign y = a?1:b;
+endmodule
+```
+![Screenshot from 2023-08-12 21-51-41](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/5e869f20-dcf6-4de5-bd12-6391d21eded7)
+<br>
+
+```
+module opt_check3 (input a , input b, input c , output y);
+	assign y = a?(c?b:0):0;
+endmodule
+```
+![Screenshot from 2023-08-12 21-58-45](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/f53ab41a-3a9c-42fc-9d7d-cb9e1a38af64)
+<br>
+
+```
+module opt_check4 (input a , input b , input c , output y);
+ assign y = a?(b?(a & c ):c):(!c);
+endmodule
+```
+![Screenshot from 2023-08-12 21-59-55](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/420c8e43-87ba-43d0-8b39-a8720e815fc6)
+<br>
+```
+module sub_module1(input a , input b , output y);
+		 assign y = a & b;
+		endmodule
+
+		module sub_module2(input a , input b , output y);
+		 assign y = a^b;
+		endmodule
+
+		module multiple_module_opt(input a , input b , input c , input d , output y);
+		wire n1,n2,n3;
+		sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+		sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+		sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+		assign y = c | (b & n1); 
+		endmodule
+```
+**The below image shows flattened synthesis**
+![Screenshot from 2023-08-12 22-08-08](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/cbc98602-ac72-45a7-9145-0c9d2649b27c)
+**The below image shows unflattened synthesis**
+![Screenshot from 2023-08-12 22-12-48](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/5941af78-fa10-445f-88d5-9fd651deef7a)
+<br>
+```
+module sub_module(input a , input b , output y);
+		assign y = a & b;
+	endmodule
+
+	module multiple_module_opt2(input a , input b , input c , input d , output y);
+		wire n1,n2,n3;
+		sub_module U1 (.a(a) , .b(1'b0) , .y(n1));
+		sub_module U2 (.a(b), .b(c) , .y(n2));
+		sub_module U3 (.a(n2), .b(d) , .y(n3));
+		sub_module U4 (.a(n3), .b(n1) , .y(y));
+	endmodule
+ ```
+**The below image shows flattened synthesis**
+![Screenshot from 2023-08-12 22-14-46](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/370af4ef-d1fb-4560-a455-a30ed50632eb)
+**The below image shows unflattened synthesis**
+![Screenshot from 2023-08-12 22-16-22](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/191b9dab-485a-45ec-8f9e-73bef2fa67dd)
+
+</details>
+
+<details>
+<summary> Sequential Logic Optimisation </summary>
 
  
 </details>
