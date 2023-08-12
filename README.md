@@ -772,11 +772,7 @@ The schematic for the same is shown below:
 </details>
 
 
-    
 
-
- 
-</details>
 
 
 ## Day-3
