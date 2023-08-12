@@ -637,6 +637,141 @@ To curb this drawback, we are going for flops to store the data from the cominat
 4. Flop with Asynchronous Set : It sets the flop irrespect of the condition of the clock
 5. Flop with both Synchronous and Asynchronous Reset : It resets the flop both with respect to condition of the clock and irrespective of it.
 
+**Simulation and Synthesis of Various D Flipflops:**
+
+**d-flipflop with asynchronous reset**- Here the output **q** goes low whenever reset is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to low.
+
+![WhatsApp Image 2023-08-12 at 14 53 20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/9da8658b-149c-4eb9-8fa2-4992826c418a)
+ 
+	 module dff_asyncres ( input clk ,  input async_reset , input d , output reg q );
+		always @ (posedge clk , posedge async_reset)
+		begin
+			if(async_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-12 15-07-08](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/2788889b-f09b-4a11-95ab-f0636f88940b)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-12 15-49-50](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/62cd33d4-8cf9-4fed-bebc-af76b123ab90)
+
+**d-flipflop with asynchronous set**- Here the output **q** goes high whenever set is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to high.
+
+![WhatsApp Image 2023-08-12 at 15 11 35](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/d2dd91f0-06b8-4f91-955a-7901c6ff6abc)
+ 
+
+	module dff_async_set ( input clk ,  input async_set , input d , output reg q );
+		always @ (posedge clk , posedge async_set)
+		begin
+			if(async_set)
+				q <= 1'b1;
+			else
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-12 15-14-46](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/29823b69-b836-41d7-95d1-acef472e8e73)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-12 15-51-52](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/14b784cc-8147-45f6-8c78-fd95c7175e77)
+
+
+**d-flipflop with synchronous reset**- Here the output **q** goes low whenever reset is high and at the positive edge of the clock. Here the reset of the output depends on the clock.
+
+![WhatsApp Image 2023-08-12 at 14 55 20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/93ebc063-9444-4103-aee5-9707fb8cc47c)
+
+
+	module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+		always @ (posedge clk )
+		begin
+			if (sync_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-12 15-20-24](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/6ca726f7-9074-4271-8366-27042c0f5490)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-12 15-54-37](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ff48515f-465b-4894-b43e-a2cf9ee533a4)
+
+**d-flipflop with synchronous and asynchronbous reset**- Here the output **q** goes low whenever asynchronous reset is high where output doesn't depend on clock and also when synchronous reset is high and posedge of clock occurs.
+
+![WhatsApp Image 2023-08-12 at 14 54 09](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/6b57fcc9-e7ff-4c52-b8ed-3ba396b40cb5)
+
+	module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+		always @ (posedge clk , posedge async_reset)
+		begin
+			if(async_reset)
+				q <= 1'b0;
+			else if (sync_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-12 15-46-10](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ff92a54c-ff5b-4afd-950a-4350591e5acb)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-12 15-56-53](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/e2bffe55-b259-480c-9fd0-65159abde300)
+
+</details>
+
+<details>
+	
+<summary> Interesting optimisations </summary>
+
+This lab session deals with some automatic and interesting optimisations of the circuits based on logic. In the below example, multiplying a number with 2 doesn't need any additional hardeware and only needs connecting the bits from **a** to **y** and grounding the LSB bit of y is enough and the same is realized by Yosys.
+
+	module mul2 (input [2:0] a, output [3:0] y);
+		assign y = a * 2;
+	endmodule
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-12 16-23-45](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/0bdcd27c-a044-4c3a-919e-25064e03a18a)
+
+When it comes to multiplying with powers of 2, it just needs shifting as shown in the below image:
+
+![WhatsApp Image 2023-08-12 at 17 00 07](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/c52880ad-c5ca-4642-a523-04ced39c5c8e)
+
+
+**Netlist for the above schematic**
+
+![Screenshot from 2023-08-12 16-27-49](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/63683f36-9190-476e-b625-cb30e17d8150)
+
+
+Special case of multiplying **a** with **9**. The result is shown in the below image:
+
+![WhatsApp Image 2023-08-12 at 17 03 16](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/fc2c3e2d-fedf-49f5-b1bc-27bd4c48dc68)
+
+The schematic for the same is shown below:
+
+![Screenshot from 2023-08-12 16-29-57](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/881d57cd-74c2-4b8d-95a5-aeedc7770085)
+
+**Netlist for the above schematic**
+
+![Screenshot from 2023-08-12 16-31-15](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/8533393f-641c-4b30-84e8-a1a5768158a6)
+
+</details>
+
 
     
 
