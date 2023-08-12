@@ -775,31 +775,7 @@ The schematic for the same is shown below:
 
 
 
-## Day-3
-<details>
 
-
-
-
- 
-</details>
-
-## Day-4
-<details>
-
-
-
-
- 
-</details>
-
-## Day-5
-<details>
-
-
-
- 
-</details>
 
  ## Acknowledgement
  
