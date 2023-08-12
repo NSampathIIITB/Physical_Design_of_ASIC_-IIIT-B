@@ -770,6 +770,7 @@ The schematic for the same is shown below:
 
 ![Screenshot from 2023-08-12 16-31-15](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/8533393f-641c-4b30-84e8-a1a5768158a6)
 
+
 </details>
 
 
