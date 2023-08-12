@@ -631,10 +631,12 @@ To curb this drawback, we are going for flops to store the data from the cominat
  **How do I code the Flop:**
  
  Below are the three different ways in which we can code the flop.</br>
+ 
+ 1. Sychronous and Asynchronous Reset</br>
+ 2. Synchronus reset</br>
+ 3. Asynchronous reset</br>
 
-    1.Synchronous & Asynchronous reset
-    2.Synchronous reset
-    3.Asynchronous reset
+    
 
 
  
