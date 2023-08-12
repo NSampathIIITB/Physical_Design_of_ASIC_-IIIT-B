@@ -630,11 +630,13 @@ To curb this drawback, we are going for flops to store the data from the cominat
 
  **How do I code the Flop:**
  
- Below are the three different ways in which we can code the flop.</br>
- 
- 1. Sychronous and Asynchronous Reset</br>
- 2. Synchronus reset</br>
- 3. Asynchronous reset</br>
+ The various coding styles of flops are: <br>
+1. Flop with Synchronous Reset : It resets the flop with respect to condition of the clock
+2. Flop with Synchronous Set : It sets the flop with respect to condition of the clock
+3. Flop with Asynchronous Reset : It resets the flop irrespect of the condition of the clock
+4. Flop with Asynchronous Set : It sets the flop irrespect of the condition of the clock
+5. Flop with both Synchronous and Asynchronous Reset : It resets the flop both with respect to condition of the clock and irrespective of it.
+
 
     
 
