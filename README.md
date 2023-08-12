@@ -690,9 +690,91 @@ To curb this drawback, we are going for flops to store the data from the cominat
 ![WhatsApp Image 2023-08-12 at 15 00 57](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/68017004-8197-4c0a-9506-0f465a34baae)
 
 
+        module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+		always @ (posedge clk )
+		begin
+			if (sync_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+ 
+ **Simulation**
+ 
+ ![Screenshot from 2023-08-12 15-20-24](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/5ec7f4ab-aa4b-457f-8d8c-a20b6305b3ef)
+
+ **Synthesised Circuit**
+
+ ![Screenshot from 2023-08-12 15-54-37](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/4fccd840-41af-41f5-b0aa-e3e6c9de2d79)
+
+ **d-flipflop with synchronous and asynchronbous reset**- Here the output **q** goes low whenever asynchronous reset is high where output doesn't depend on clock and also when synchronous reset is high and posedge of clock occurs.
+ 
+ ![WhatsApp Image 2023-08-12 at 14 54 09](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/25a33962-103e-4fb8-a536-aa17f1112693)
+
+       module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+		always @ (posedge clk , posedge async_reset)
+		begin
+			if(async_reset)
+				q <= 1'b0;
+			else if (sync_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+ **Simulation**
+
+ ![Screenshot from 2023-08-12 15-46-10](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b98c74b3-70f1-405c-a8fb-db3f39c47ee2)
+
+ **Synthesized Circuit**
+
+ ![Screenshot from 2023-08-12 15-56-53](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/42dd1894-0691-430f-83d5-e3f566a50805)
+ 
+
+ **Interesting Optimisations:**
+
+ This lab session deals with some automatic and interesting optimisations of the circuits based on logic. In the below example, multiplying a number with 2 doesn't need any additional hardware  and only needs connecting the bits from **a** to **y** and grounding the LSB bit of y is enough and the same is realized by Yosys.
+
+	module mul2 (input [2:0] a, output [3:0] y);
+		assign y = a * 2;
+	endmodule
+
+ 
+ **Synthesized Circuit**
+
+ ![Screenshot from 2023-08-12 16-23-45](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/06e26061-f044-4abe-aeae-f58cbfffacc1)
+
+ When it comes to multiplying with powers of 2, it just needs shifting as shown in the below image:
+
+![WhatsApp Image 2023-08-12 at 17 00 07](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/c4c34eb7-d6e5-498c-8969-74e36ae97584)
+
+**Netlist for the above schematic**
+
+![Screenshot from 2023-08-12 16-27-49](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/a28761bc-ec9f-4657-80b4-4e54f74421be)
+
+Special case of multiplying **a** with **9**. The result is shown in the below image:
+
+![WhatsApp Image 2023-08-12 at 17 03 16](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/1a74708c-5d36-41a0-8662-078ebaa836b7)
+
+**Synthesized Circuit**
+
+![Screenshot from 2023-08-12 16-29-57](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/0abddba0-de17-4003-b66e-1a477173f17f)
 
 
+**Netlist for the above schematic**
 
+![Screenshot from 2023-08-12 16-31-15](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/c1efa065-8026-49a4-bc0b-2128c75acc99)
+
+</details>
+
+## Day-3
+<details>
+
+
+ 
+</details>
 
  ## Acknowledgement
  
