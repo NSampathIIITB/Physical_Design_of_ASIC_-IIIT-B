@@ -4,11 +4,16 @@ This github repository summarises the progress made in the Physical Design of AS
 
 [Day-0 : Installation of required Software Tools](#day-0)
 
-[Day-1 : Introduction to Simulation and Synthesis using Iverilog, GTKWave and Yosys](#day-1)
+[Day-1 : Introduction to Verilog RTL Design and Synthesis](#day-1)
 
-[Day-2 : Timing libs, Hierarchical vs Flat synthesis and Efficient flop coding style](#day-2)
+[Day-2 : Timing libs, Hierarchical vs Flat synthesis and Various flop coding styles and Optimisation](#day-2)
 
 [Day-3 : Combinational and Sequential Optmizations](#day-3)
+
+[Day-4 : GLS, Blocking vs Non-blocking and Synthesis-Simulation mismatch](#day-4)
+
+[Day-5 : If, Case, For loop and For generate](#day-5)
+
 
 
 
@@ -423,9 +428,19 @@ Below image is the delay order for the different flavor of gates.
 </details>
 
 <details>
-<summary> Hiererchical Synthesis and Flat Synthesis </summary>
+<summary> Hierarchical Synthesis v/s Flat Synthesis </summary>
 	
-Hierarchical synthesis is breaking a complex modules into smaller, more manageable sub-modules or blocks. Each of these sub-modules can be synthesized or designed independently before being integrated into the larger system. This approach allows for efficient design, optimization, and verification of individual components while maintaining a structured and organized design process. An illustration of the hierarchical synthesis is shown below :
+**Hierarchial Synthesis:**
+	
+Hierarchical synthesis is breaking a complex modules into smaller, more manageable sub-modules or blocks. Each of these sub-modules can be synthesized or designed independently before being integrated into the larger system. This approach allows for efficient design, optimization, and verification of individual components while maintaining a structured and organized design process.The design hierarchy can have multiple levels, with modules containing sub- modules and so on.
+
+**Flat Synthesis:**
+In flat synthesis, the entire digital circuit is synthesized as a single monolithic unit, without breaking it down into smaller modules. This approach is suitable for smaller designs where the complexity doesn't warrant a hierarchical organization.
+
+In this section we are going to sythesize the same design in both Hierarchical and Flat to illustrate the difference in the netlist of both.
+
+
+An illustration of the hierarchical synthesis is shown below :
 
 Consider the verilog file multiple module which is given in the verilog_files directory
  ```
@@ -444,6 +459,182 @@ module multiple_modules (input a, input b, input c , output y);
 	sub_module2 u2(.a(net1),.b(c),.y(y));  //y = net1|c ,ie y = a&b + c;
 endmodule
  ```
+This is the schematic as per the connections in the above module.
+
+![WhatsApp Image 2023-08-12 at 10 35 37](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/1734474c-2aa1-427e-9318-465924588777)
+
+However, the yosys synthesizer generates the following schematic instead of the above one and with in the submodules, the connections are made
+
+```
+$ yosys
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> read_verilog multiple_modules.v
+yosys> synth -top multiple_modules
+yosys> show multiple_modules 
+
+```
+![Screenshot from 2023-08-12 00-00-51](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/0f9fdab5-2d4c-42e9-adc4-ceba121a1ef7)
+
+The synthesizer considers the module hierarcy and does the mapping accordting to instantiation. Here is the hierarchical netlist code for the  multiple_modules:
+
+	module multiple_modules(a, b, c, y);
+		  input a;
+ 		 input b;
+ 		 input c;
+		  wire net1;
+ 		 output y;
+ 	  sub_module1 u1 (.a(a),.b(b),.y(net1) );
+	  sub_module2 u2 (.a(net1),.b(c),.y(y));
+	endmodule
+	
+	module sub_module1(a, b, y);
+ 	 wire _0_;
+ 	 wire _1_;
+ 	 wire _2_;
+ 	 input a;
+ 	 input b;
+ 	 output y;
+ 	 sky130_fd_sc_hd__and2_0 _3_ (.A(_1_),.B(_0_),.X(_2_));
+ 	 assign _1_ = b;
+ 	 assign _0_ = a;
+ 	 assign y = _2_;
+	endmodule
+
+	module sub_module2(a, b, y);
+  	wire _0_;
+ 	 wire _1_;
+ 	 wire _2_;
+  	input a;
+  	input b;
+ 	 output y;
+ 	 sky130_fd_sc_hd__lpflow_inputiso1p_1 _3_ (.A(_1_),.SLEEP(_0_),.X(_2_) );
+ 	 assign _1_ = b;
+ 	 assign _0_ = a;
+ 	 assign y = _2_;
+	endmodule
+
+Flattened netlist:
+
+In flattened netlist, the hierarcies are flattend out and there is single module i.e, gates are instantiated directly instead of sub_modules. Here is the flattened netlist code for the  multiple_modules:
+
+	module multiple_modules(a, b, c, y);
+ 		 wire _0_;
+  		 wire _1_;
+ 		 wire _2_;
+ 		 wire _3_;
+		 wire _4_;
+		 wire _5_;
+ 		 input a;
+ 		 input b;
+ 		 input c;
+ 		 wire net1;
+ 		 wire \u1.a ;
+		 wire \u1.b ;
+		 wire \u1.y ;
+		 wire \u2.a ;
+		 wire \u2.b ;
+ 		 wire \u2.y ;
+  		output y;
+ 		 sky130_fd_sc_hd__and2_0 _6_ (
+  		  .A(_1_),
+  		 .B(_0_),
+   		 .X(_2_)
+  		);
+ 		 sky130_fd_sc_hd__lpflow_inputiso1p_1 _7_ (
+  		  .A(_4_),
+ 		  .SLEEP(_3_),
+  		  .X(_5_)
+ 		 );
+ 		 assign _4_ = \u2.b ;
+ 		 assign _3_ = \u2.a ;
+ 		 assign \u2.y  = _5_;
+ 		 assign \u2.a  = net1;
+		 assign \u2.b  = c;
+ 		 assign y = \u2.y ;
+		 assign _1_ = \u1.b ;
+		 assign _0_ = \u1.a ;
+		 assign \u1.y  = _2_;
+		 assign \u1.a  = a;
+		 assign \u1.b  = b;
+ 		 assign net1 = \u1.y ;
+		endmodule
+
+The commands to get the hierarchical and flattened netlists is shown below:
+
+**yosys> write_verilog -noattr multiple_modules_hier.v**
+
+8. Executing Verilog backend.
+Dumping module `\multiple_modules'.
+Dumping module `\sub_module1'.
+Dumping module `\sub_module2'.
+
+**yosys> !gvim multiple_modules_hier.v**
+
+11. Shell command: gvim multiple_modules_hier.v
+
+**yosys> flatten**
+
+12. Executing FLATTEN pass (flatten design).
+Deleting now unused module sub_module1.
+Deleting now unused module sub_module2.
+<suppressed ~2 debug messages>
+
+**yosys> write_verilog -noattr multiple_modules_flat.v**
+
+13. Executing Verilog backend.
+Dumping module `\multiple_modules'.
+
+**yosys> !gvim multiple_modules_flat.v**
+
+14. Shell command: gvim multiple_modules_flat.v
+
+This is the synthyesized circuit for a flattened netlist. Here u1 and u2 are flattened and directly or gates are realized.
+
+![Screenshot from 2023-08-12 10-15-43](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/d7a98ae8-39b2-425d-a8ad-81e21166cf74)
+
+
+Here is the synthesized circuit of sub_module1. We are also generating module level synthesis so that if there is a top module with multiple and same sub_modules, we can synthesize it once and can use and connect the same netlist multiple times in the top module netlist.
+
+Another reason to generate module level synthesis and then stictch them together is to avoid errors in a top module if its massive and consists of several sub modules. Generating netlist for synthesis and then stiching it together in top level becomes easier and reduces risk of output mismatch.
+
+We control this synthesis using **synth -top <module_name>** command
+
+![Screenshot from 2023-08-12 10-27-32](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/cb3e29da-6e92-4863-9534-36473078c486)
+
+ </details>
+ 
+ <details>
+<summary> Various Flop Coding styles and Optimisation </summary>
+	 
+**Why Flops and Flop coding styles**
+
+In this session, the discussion was about how to code various types of flops and various styles of coding a flop.
+
+**Why a Flop?**
+
+ In a combinational circuit, the output changes after the propagation delay of the circuit once inputs are changed. During the propagation of data, if there are different paths with different propagation delays, there might be a chance of getting a glitch at the output.<br />
+ 
+ **Here is an example showing how a glitch is formed**
+ 
+![WhatsApp Image 2023-08-12 at 11 55 42](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/8d2233a3-8c47-4093-8280-a3cc63d8182c)
+
+ In our design we are going to have more no of combinational circuits if there are multiple combinational circuits in the design, the occurances of glitches are more thereby making the output unstable.<br />
+
+![WhatsApp Image 2023-08-12 at 12 08 23](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/eedd9847-6435-474f-bc39-eeb534a0882b)
+ 
+To curb this drawback, we are going for flops to store the data from the cominational circuits. When a flop is used, the output of combinational circuit is stored in it and it is propagated only at the posedge or negedge of the clock so that the next combinational circuit gets a glitch free input thereby stabilising the output.
+
+![WhatsApp Image 2023-08-12 at 12 08 23(1)](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/41204024-efa6-4d3c-add0-7fdbf9a04942)
+ 
+ We use initialize signals or control pins called **set** and **reset** on a flop to initialize the flop, other wise a garbage value to sent out to the next combinational circuit. These control pins can be synchronous or asynchronous.
+
+ **How do I code the Flop:**
+ 
+ Below are the three different ways in which we can code the flop.</br>
+
+    1.Synchronous & Asynchronous reset
+    2.Synchronous reset
+    3.Asynchronous reset
 
 
  
@@ -451,6 +642,24 @@ endmodule
 
 
 ## Day-3
+<details>
+
+
+
+
+ 
+</details>
+
+## Day-4
+<details>
+
+
+
+
+ 
+</details>
+
+## Day-5
 <details>
 
 
