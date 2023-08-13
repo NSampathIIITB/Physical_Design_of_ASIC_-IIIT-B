@@ -1233,7 +1233,7 @@ Improper usage of blocking statements can create latches which inturn creates Si
 
  Here the output is depending on the past value of **x** which is dependednt on a and b and it appears like a **flop**.
 
-# Example-4
+**Example-4**
 
 	module blocking_caveat (input a , input b , input  c, output reg d); 
 	reg x;
