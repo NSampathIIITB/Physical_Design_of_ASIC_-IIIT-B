@@ -1048,7 +1048,48 @@ endmodule
 	
 **Sequential optimization of unused outputs** refers to a design technique aimed at optimizing digital circuits by identifying and addressing unused or redundant output signals in sequential logic elements. Unused outputs can consume unnecessary resources, increase power consumption, and complicate the design without providing any functional benefit. By identifying and optimizing these outputs, designers can improve the overall efficiency of the circuit.</br>
 
-	
+**Example-1:**
+
+```
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count
+assign q = count[0];
+always @(posedge clk ,posedge reset)
+begin
+	if(reset)
+		count <= 3'b000;
+	else
+		count <= count + 1;
+end
+endmodule
+```
+**Synthesized circuit:**
+
+![Screenshot from 2023-08-13 12-25-38](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/c60e2dd0-972f-4732-8445-68dd402efc82)
+
+**Example-2**
+
+```
+module counter_opt (input clk , input reset , output q);
+		reg [2:0] count;
+		assign q = {count[2:0]==3'b100};
+		always @(posedge clk ,posedge reset)
+		begin
+		if(reset)
+			count <= 3'b000;
+		else
+			count <= count + 1;
+		end
+	endmodule
+
+```
+In this update counter logic we need to synthesize all the three flipflops</br>
+
+**Synthesized circuit:**
+
+![Screenshot from 2023-08-13 12-27-23](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/a3d807f6-c9b4-4cfb-8ade-79378877cb57)
+![Screenshot from 2023-08-13 12-28-14](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/38ffe7f0-ac00-4063-ad49-bc73c0524b2a)
+
 </details>
 
  ## Acknowledgement
@@ -1058,13 +1099,13 @@ endmodule
 - Alwin shaju,IIIT B
 - DantuNandini,Senior,IIIT B
 - Mariam Rakka
-
+- chatgpt
   
 ## Reference 
 
 - https://github.com/kunalg123
 - https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
-- chatgpt 
+- https://vsdiat.com
  
  
 
