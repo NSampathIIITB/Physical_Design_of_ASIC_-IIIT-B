@@ -888,6 +888,159 @@ module sub_module(input a , input b , output y);
 
 <details>
 <summary> Sequential Logic Optimisation </summary>
+	
+Sequential logic optimization refers to the process of improving the performance, area utilization, power consumption, or other relevant metrics of a digital circuit that includes sequential logic elements. Sequential logic elements include flip-flops, registers, and other components that store information over time, as opposed to combinational logic elements which directly derive outputs from inputs without memory.</br>
+
+Below are the various techniques used for sequential logic optimisations:<br />
+-Basic
+  - Sequential contant propagation
+- Advanced
+  - State optimisation
+  - Retiming
+  - Sequential Logic Cloning (Floor Plan Aware Synthesis)
+
+**Sequential constant propogation:**
+
+Sequential constant propagation is a technique used in digital circuit design and optimization to identify and propagate constant values through sequential logic elements. It aims to replace variables or signals with constant values when it can be determined that those variables will always have the same value at a given point in time during the circuit's operation.</br>
+
+**Here is an example of sequential constant propogation**
+
+![WhatsApp Image 2023-08-13 at 10 34 59](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/5a379edc-e256-48a0-b61d-915800719c5c)
+
+**State Optimisation:**
+
+Reducing the number of states in a finite state machine (FSM) can lead to simpler and more efficient designs. This can involve merging equivalent states, removing redundant states, and optimizing state transitions.</br>
+
+**Retiming:**
+
+Retiming involves moving flip-flops within the circuit to improve the timing characteristics, such as reducing critical paths and achieving better clock distribution. This can lead to better overall performance and reduced power consumption.</br>
+
+**Sequential logic cloning:**
+
+Sequential logic cloning, also known as logic duplication, is a technique used in digital circuit design and optimization. It involves creating multiple copies of a portion of sequential logic within a circuit to achieve specific design goals, such as improving performance, meeting timing constraints, or reducing power consumption.
+
+**The following codes are optimised and the synthesis circuits are generated automatically.**  <br>
+
+```
+module dff_const1(input clk, input reset, output reg q);
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+		q <= 1'b0;
+	else
+		q <= 1'b1;
+end
+endmodule
+```
+**Simulation**
+Here flop will be inferred as the output is not constant.
+
+![Screenshot from 2023-08-13 10-57-40](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/e3848a13-6c3b-44a1-9bec-9532c1908075)
+
+**Synthesized circuit**
+
+![Screenshot from 2023-08-13 11-09-43](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/9db322ab-4370-4679-8bb2-8a5babebff2e)
+<br>
+```
+module dff_const2(input clk, input reset, output reg q);
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+		q <= 1'b1;
+	else
+		q <= 1'b1;
+end
+endmodule
+```
+**Simulation**
+Here flop will not be inferred as the output is always high. 
+
+![Screenshot from 2023-08-13 11-12-48](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/71a83b57-d08d-414e-a783-b90735b0d79f)
+
+**Synthesized circuit**
+
+![Screenshot from 2023-08-13 11-14-32](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/21a0ee1b-54ff-4306-8006-e2e9f44644ee)
+<br>
+```
+module dff_const3(input clk, input reset, output reg q);
+reg q1;
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+endmodule
+```
+**Simulation**
+
+![Screenshot from 2023-08-13 11-23-29](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/2b574f36-f8a3-4d45-aaac-d43e8647674c)
+
+**Synthesized circuit**
+
+![Screenshot from 2023-08-13 11-25-20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b06416f0-0895-447c-85c3-1060b919f890)
+<br>
+```
+module dff_const4(input clk, input reset, output reg q);
+reg q1;
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b1;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+endmodule
+```
+**Simulation**
+
+![Screenshot from 2023-08-13 11-29-52](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ad66e7b3-b6b0-4e35-a907-6910801473f6)
+
+**Synthesized circuit**
+
+![Screenshot from 2023-08-13 11-44-02](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/052cd9b6-ded0-43d4-b4e0-a8f2f082a089)
+<br>
+
+```
+module dff_const5(input clk, input reset, output reg q);
+reg q1;
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b0;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+endmodule
+```
+**Simulation**
+
+![Screenshot from 2023-08-13 11-46-19](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/bf717e87-1832-4743-97ef-863c5840c774)
+
+**Synthesized circuit**
+
+![Screenshot from 2023-08-13 11-47-33](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/67e344bd-662c-478a-a3ff-24de4fb3c997)
+<br>
+
 
  
 </details>
@@ -905,7 +1058,7 @@ module sub_module(input a , input b , output y);
 
 - https://github.com/kunalg123
 - https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
-  
+- chatgpt 
  
  
 
