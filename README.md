@@ -1256,11 +1256,15 @@ Improper usage of blocking statements can create latches which inturn creates Si
 ![Screenshot from 2023-08-13 16-24-35](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/37aedbef-3c25-4efd-9580-340af5379e58)
 
 **MISMATCH** 
+
+![WhatsApp Image 2023-08-13 at 18 35 38](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/d6fc8cf4-ba0b-4532-a076-f0cb67b751ba)
+
+Here this how the circuit should behave,but this correct waveform is only obtained while doing netlist simulation.</br>
+
 ![Screenshot from 2023-08-13 18-22-36](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/f66a05a0-3d5a-4122-85ee-69dc9348d8af)
 ![Screenshot from 2023-08-13 18-23-26](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/9f7a9813-14df-4410-9e6d-5cbd2a0c1b1e)
 
 
-Here this how the circuit should behave,but this correct waveform is only obtained while doing netlist simulation.</br>
 Here first pic show the netlist simulation which shows the proper working of the DUT while the last pic shows the improper working of DUT as we have used blocking statement here which causes synthesis-simulation mismatch which is sorted out by GLS while providing netlist simulation  
 
 
