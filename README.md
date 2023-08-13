@@ -1094,8 +1094,179 @@ In this update counter logic we need to synthesize all the three flipflops</br>
 
 ## Day-4
 <details>
-	
+<summary>GLS, Synthesis-Simulation mismatch and Blocking, Non-blocking statements</summary>
+
+### GLS Concepts And Flow Using Iverilog
+
+**What is GLS- Gate Level Simulation?**:<br />
+GLS is generating the simulation output by running test bench with netlist file generated from synthesis as design under test. Netlist is logically same as RTL code, therefore, same test bench can be used for it.
+
+**Why GLS?**:<br />
+We perform this to verify logical correctness of the design after synthesizing it. Also ensuring the timing of the design is met.
+
+Below picture gives an insight of the procedure. Here while using iverilog, we also include gate level verilog models to generate GLS simulation.
+
+![Screenshot (49)](https://user-images.githubusercontent.com/104454253/166256679-1ac9167a-1358-4c60-bbdb-0f6423f0faa3.png)</br>
+
+To invoke GLS we use the command 
+```
+iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v example_net.v tb_example.v
+```
+
+### Synthesis-Simulation Mismatch
+
+There are three main reasons for Synthesis Simulation Mismatch:<br />
+- Missing sensitivity list in always block
+- Blocking vs Non-Blocking Assignments
+- Non standard Verilog coding
+
+**Missing sensitivity list in always block:** </br>
+
+If we consider **Example-2**, we can see the only **sel** is mentioned in the sensitivity list. During the simulation, the waveforms will resemble a latched output but the simulation of netlist will not infer this, as the synthesizer will only look at the statements with in the procedural block and not the sensitivity list.
+
+As the synthesizer doen't look for sensitivity list and it looks only for the statements in procedural block or the functionality , it infers the correct circuit and if we simulate the netlist code, there will be a synthesis-simulation mismatch.
+
+To avoid the synthesis and simulation mismatch. It is very important to check the behaviour of the circuit first and then match it with the expected output seen in simulation and make sure there are no synthesis and simulation mismatches. This is why we use GLS.
+
+**Blocking vs Non-Blocking Assignments**:
+
+Blocking and Non Blocking statements comes into the picture when we use **always block**.</br>
+
+**Blocking statements:**
+
+1. Inside the always block if we use "=" to make statements that is called a Blocking Statement.</br>
+2. Blocking statements execute the statemetns in the order they are written inside the always block.Here the behaviour is like C-program.</br>
+
+**Non-Blocking statements:**
+
+1. Inside the always block if we use "=" to make statements that is called a Blocking Statement.</br>
+2. Non-Blocking statements execute all the RHS and once always block is entered, the values are assigned to LHS.
+3. Parallel or Concurrent execution.
+  
+Improper usage of blocking statements can create latches which inturn creates Simulation-Synthesis mismatch. Get to see at **Example-4**</br>
+
+**NOTE:** Always write Non blocking statements for sequential circuits
+
 </details>
+
+<details>
+	<summary> Lab-GLS Synthesis-Simulation Mismatch </summary>
+
+ **Example-1** There is no mismatch in this example as the netlist simulation and RTL simulation waveform are similar only
+
+	module ternary_operator_mux (input i0 , input i1 , input sel , output y);
+		assign y = sel?i1:i0;
+	endmodule
+	
+**Simulation**
+
+![Screenshot from 2023-08-13 15-42-57](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/5966ac9c-1045-4e92-993b-d07618aeded6)
+
+**Synthesis**
+
+![Screenshot from 2023-08-13 15-45-06](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/a8157dad-d7d3-4020-9324-687ee1d1c27d)
+
+**Netlist Simulation**
+
+![Screenshot from 2023-08-13 15-55-53](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/9f27aaaf-0ca7-4ade-a50d-e8efe5f32891)
+
+
+**Example-2**
+
+	module bad_mux (input i0 , input i1 , input sel , output reg y);
+		always @ (sel)
+		begin
+			if(sel)
+				y <= i1;
+			else 
+				y <= i0;
+		end
+	endmodule
+
+**Simulation**
+
+![Screenshot from 2023-08-13 15-59-41](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/a3869c49-6207-454c-81df-9f1336f14bbb)
+
+**Synthesis**
+
+![Screenshot from 2023-08-13 16-02-56](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/56bc83b7-6c5b-4a0d-8e1c-b060f204ff0e)
+
+**Netlist Simulation**
+
+![Screenshot from 2023-08-13 16-05-20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/7ea749ce-0b6a-410c-9db2-f1603cd3d1d2)
+
+**MISMATCH**<br /> Here first pic shows the netlist simulation which corrects the bad_mux design which was only changing waveform when sel was triggered while for a mux to work properly it should be sensitivity to all the input signals.
+![Screenshot from 2023-08-13 16-05-20](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ee1f3e74-415a-48a4-9576-9df8623fe4f8)
+![Screenshot from 2023-08-13 15-59-41](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b7e54997-9fc4-4ead-b4f5-2a78acf1177d)
+
+
+
+
+**Example-3**
+
+	module good_mux (input i0 , input i1 , input sel , output reg y);
+		always @ (*)
+		begin
+			if(sel)
+				y <= i1;
+			else 
+				y <= i0;
+		end
+	endmodule
+	
+**Simulation**
+
+![Screenshot from 2023-08-13 16-07-49](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/a78d471d-b78b-4df4-981d-659edbb1d929)
+
+**Synthesis**
+
+![Screenshot from 2023-08-13 16-09-56](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/307bd542-a44e-450c-b96a-d820694d586b)
+
+**Netlist Simulation**
+
+![Screenshot from 2023-08-13 16-11-41](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/888607fa-dc97-4c60-b09d-dca8699c22f6)
+
+</details>
+
+<details>
+<summary> Lab-Synthesis-Simulation mismatch blocking statement</summary>
+
+ Here the output is depending on the past value of **x** which is dependednt on a and b and it appears like a **flop**.
+
+# Example-4
+
+	module blocking_caveat (input a , input b , input  c, output reg d); 
+	reg x;
+	always @ (*)
+		begin
+		d = x & c;
+		x = a | b;
+	end
+	endmodule
+
+**Simulation**
+![Screenshot from 2023-08-13 16-15-06](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b2c9a783-73d9-4a88-8c8e-aa81120a1f63)
+
+**Synthesis**
+
+![Screenshot from 2023-08-13 18-18-39](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/73d54533-cd82-4acd-a23a-1546f16c90ab)
+
+**Netlist Simulation**
+
+![Screenshot from 2023-08-13 16-24-35](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/37aedbef-3c25-4efd-9580-340af5379e58)
+
+**MISMATCH** 
+![Screenshot from 2023-08-13 18-22-36](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/f66a05a0-3d5a-4122-85ee-69dc9348d8af)
+![Screenshot from 2023-08-13 18-23-26](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/9f7a9813-14df-4410-9e6d-5cbd2a0c1b1e)
+
+
+Here this how the circuit should behave,but this correct waveform is only obtained while doing netlist simulation.</br>
+Here first pic show the netlist simulation which shows the proper working of the DUT while the last pic shows the improper working of DUT as we have used blocking statement here which causes synthesis-simulation mismatch which is sorted out by GLS while providing netlist simulation  
+
+
+</details>
+	
+
 
 ## Day-5
 <details>
