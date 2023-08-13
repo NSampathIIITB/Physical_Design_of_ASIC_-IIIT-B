@@ -179,7 +179,7 @@ iVerilog Based Simulation Flow
 </details>	
 
 <details>
- <summary> Simulation of 2x1 Mux using iverilog and gtkwave </summary>
+ <summary> Simulation of 2x1 Mux using Iverilog and GTKWave </summary>
 
 We were introducted to Linux operating system and were made aware of the basic commands. Using **git clone** command we've cloned library files like standard cell library, primitives which are used for synthesis and few verilog codes for practice.
 
