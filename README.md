@@ -1092,6 +1092,9 @@ In this update counter logic we need to synthesize all the three flipflops</br>
 
 </details>
 
+## Day-4
+
+
  ## Acknowledgement
  
 - Kunal Ghosh, VSD Corp. Pvt. Ltd.
