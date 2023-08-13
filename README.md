@@ -1041,8 +1041,14 @@ endmodule
 ![Screenshot from 2023-08-13 11-47-33](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/67e344bd-662c-478a-a3ff-24de4fb3c997)
 <br>
 
+</details>
 
- 
+<details>
+<summary> Sequential optimisation of Unused outputs </summary>
+	
+**Sequential optimization of unused outputs** refers to a design technique aimed at optimizing digital circuits by identifying and addressing unused or redundant output signals in sequential logic elements. Unused outputs can consume unnecessary resources, increase power consumption, and complicate the design without providing any functional benefit. By identifying and optimizing these outputs, designers can improve the overall efficiency of the circuit.</br>
+
+	
 </details>
 
  ## Acknowledgement
