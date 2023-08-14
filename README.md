@@ -1663,6 +1663,8 @@ In this Ripple carry adder example, unlike instantiating fulladder for 8 times, 
 
 - https://github.com/kunalg123
 - https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+- https://github.com/mariamrakka
+- https://github.com/dantunandinidevi
 - https://vsdiat.com
  
  
