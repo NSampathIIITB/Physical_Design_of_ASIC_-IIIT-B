@@ -1274,7 +1274,9 @@ Here first pic show the netlist simulation which shows the proper working of the
 
 ## Day-5
 <details>
-	
+<summary> Introduction to If ,Case constructs </summary>	
+
+ 
 </details>
 
 
