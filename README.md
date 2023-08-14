@@ -1276,6 +1276,376 @@ Here first pic show the netlist simulation which shows the proper working of the
 <details>
 <summary> Introduction to If ,Case constructs </summary>	
 
+1.The If and Case constructs are generally used inside the **always** block and these constructs allow you to model complex hardware behavior based on different conditions or control signals. </br>
+2.Whatever the variable you are trying to assign in Case or If constructs should be a **register** variable.</br>
+
+**If construct**
+
+The If construct is mainly used to create priority logic. In a nested if-else construct, the conditions are given priority from top to bottom. Only if the condition holds true the if statement is executed and the compiler comes out of the block. If  the condition fails, it checks for the next condition and so on as shown below.
+
+**Syntax for nested if else**
+
+	if (<condition 1>)
+	begin
+	-----------
+	-----------
+	end
+	else if (<condition 2>)
+	begin
+	-----------
+	-----------
+	end
+	else if (<condition 3>)
+	.
+	.
+	.
+	
+**Dangers with IF construct**:
+
+If  we use a bad coding style i.e using incomplete if-else constructs will infer a latch. We definetly don't require an unwanted latch in a combinational circuit.
+When an incomplete construct is used, if all the conditions are failed, the input is latched to the output and hence we don't get desired output unless we need a latch.
+
+This can be shown in below example:
+
+![WhatsApp Image 2023-08-14 at 21 21 00](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/47ac7d32-ff26-4c88-93c1-51a14bddcb0c)
+
+**Case construct**
+
+The Case construct in Verilog is used to define conditional behavior based on specific values of an expression. It's often used when you have multiple conditions to check against a single expression.using **default** in case constuct we can avoid infered latches.
+
+**Syntax**
+
+	case(statement)
+	  case1: begin
+  	       --------
+		 --------
+		 end
+ 	 case2: begin
+    	     --------
+		 --------
+		 end
+ 	 default:
+	 endcase
+ 
+ In case construct, the execution checks for all the case statements and whichever satisfies the statement, that particular statement is executed. If there is no match, the default statement is  executed. But here unlike if construct, the execution doesn't stop once statement is satisfied, but it continues further and checks all the other statements.
+ 
+**Caveats in Case construct:** <br />
+
+Caveats in Case construct occur due to these following reasons.</br>
+
+1. Incomplete case statements
+2. Partial assignments in case
+3. Overlapping case statements
+
+    1.Example for Incomplete case statements
+   ![WhatsApp Image 2023-08-14 at 21 21 37](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ec4a0589-4422-456e-b6be-f92acefd482d)</br>
+   
+   This can be avoided by using default statements</br>
+   
+    2.Example for partial assignment in case
+   ![WhatsApp Image 2023-08-14 at 21 27 22](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/9e39a5ef-0f25-4d6c-9c2a-c9361a6720aa)</br>
+   
+     This can be avoided by assigning all the outputs in all the segments of case
+   
+   
+
+</details>
+
+<details>
+<summary> Lab- Incomplete IF </summary>
+
+This incomplete if construct forms a connection between **i0** and output **y** i.e, D-latch with input as i1 and i0 will be the enable for it.<br />
+
+**Example-1**
+
+	module incomp_if (input i0 , input i1 , input i2 , output reg y);
+	always @ (*)
+	begin
+		if(i0)
+			y <= i1;
+	end
+	endmodule
+
+**Simulation**
+![Screenshot from 2023-08-13 22-29-02](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/c599c338-3c56-4665-8c80-f46788756083)
+
+**Synthesis**
+![Screenshot from 2023-08-13 22-36-22](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/0906ee13-d58b-4646-a5dc-d3e592a494bc)
+
+**Example-2**<br />
+The below code is equivalent to two 2:1 mux with i0 and i2 as select lines with i1 and i3 as inputs respectively. Here as well, the output is connected back to input in the form of a latch with an enable input of **OR** of i0 and i2.
+
+	module incomp_if2 (input i0 , input i1 , input i2 , input i3, output reg y);
+		always @ (*)
+		begin
+			if(i0)
+				y <= i1;
+			else if (i2)
+				y <= i3;
+		end
+	endmodule
+
+**Simulation**
+![Screenshot from 2023-08-13 22-44-44](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/aa9a54aa-02f1-4c65-87ef-14b4168033af)
+
+**Synthesis**
+![Screenshot from 2023-08-13 22-46-40](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/656da223-1cb4-49dc-853c-17d891a5d44d)
+ 
+</details>
+
+<details>
+<summary> Lab- incomplete overlapping Case </summary>
+
+**Example-1**<br />
+Thie is an example of incomplete case where other two combinations 10 and 11 were not included. This will infer a latch for the multiplexer and connect i2 and i3 with the output.
+
+	module incomp_case (input i0 , input i1 , input i2 , input [1:0] sel, output reg y);
+		always @ (*)
+		begin
+		case(sel)
+			2'b00 : y = i0;
+			2'b01 : y = i1;
+		endcase
+		end
+	endmodule
+
+**Simulator**
+![Screenshot from 2023-08-13 23-00-55](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/e817da5e-2c43-4273-92a7-157a9305c51d)
+
+**Synthesis**
+![Screenshot from 2023-08-13 23-05-09](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/875860d0-b5ce-45e8-9d58-ba9586784df6)
+
+**Example-2**
+
+This is the case of complete case statements as the default case is given. If the actual case statements don't execute, the compiler directly executes the default statements and a latch is not inferred.
+
+	module comp_case (input i0 , input i1 , input i2 , input [1:0] sel, output reg y);
+	always @ (*)
+	begin
+		case(sel)
+			2'b00 : y = i0;
+			2'b01 : y = i1;
+			default : y = i2;
+		endcase
+	end
+	endmodule
+
+**Simulation**
+![Screenshot from 2023-08-14 09-48-15](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ef60b991-e202-4951-90e2-e045da2d6e60)
+
+**Synthesis**
+![Screenshot from 2023-08-14 09-52-57](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b6980984-69b4-4c4f-a128-f82a891b8b23)
+
+**Example-3**<br />
+In the below example, y is present in all the case statements and it had particular outut for all cases. There no latch is inferred in case of y. 
+When it comes to x, it is not assigned for the input 01, therefore a latch is inferred here.
+
+	module partial_case_assign (input i0 , input i1 , input i2 , input [1:0] sel, output reg y , output reg x);
+	always @ (*)
+	begin
+		case(sel)
+			2'b00 : begin
+				y = i0;
+				x = i2;
+				end
+			2'b01 : y = i1;
+			default : begin
+		         	  x = i1;
+				  y = i2;
+			 	 end
+		endcase
+	end
+	endmodule
+
+**Simulation**
+![Screenshot from 2023-08-14 10-32-36](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b3570418-df85-45d4-aaa9-7071e42ab18f)
+
+**Synthesis**
+![Screenshot from 2023-08-14 10-36-51](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/28db8c22-e34c-49f0-8f72-5ee3ba52dcb4)
+
+**Example-4**
+
+	module bad_case (input i0 , input i1, input i2, input i3 , input [1:0] sel, output reg y);
+	always @(*)
+	begin
+		case(sel)
+			2'b00: y = i0;
+			2'b01: y = i1;
+			2'b10: y = i2;
+			2'b1?: y = i3;
+			//2'b11: y = i3;
+		endcase
+	end
+	endmodule
+	
+**Simulation**
+![Screenshot from 2023-08-14 11-06-35](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/54cdc728-1053-4f8a-9428-a5d46f27435d)
+
+**Synthesis**
+![Screenshot from 2023-08-14 10-56-21](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/e66b99b7-60f0-4925-b664-80bf30882662)
+
+**Netlist simulation** </br>
+As we can see from the simulation wave form and difference in netlist waveform here the invalid case is getting fixed by the tool which we should avoid to do so in the code
+![Screenshot from 2023-08-14 11-03-55](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/accdf6bc-7eb9-4dd0-9233-7de9a59edd08)
+ 
+</details>
+
+<details>
+<summary> For Loop and For Generate </summary>
+	
+We are using Loop constructs to simplify the hardware.</br>
+
+There are two types of looping constructs.</br>
+1. For loop
+2. Generate for loop
+
+**For Loop**</br>
+- For loop is always used in always block.
+- It is used for excecuting expressions alone.
+- whenever we need to write a very wide MUX or DEMUX we use "for loop" because we need to make multiple evaluations.
+
+**Generate For loop**</br>
+- Generate for loop is used for instantaing hardware multiple times.
+- It should be used only outside always block.
+
+ Generate for loop can be used to instantiate any number of sub modules with in a top module. For example, if we need a 32 bit ripple carry adder, instead of instantiating 32 full adders, we can write a generate for loop and connect the full adders appropriately.similarly we can use if-generate also.
+
+ **Syntax of generate for loop**
+
+	genvar i
+	  generate
+  	       for(i=0;i<n;i=i+1)
+	       begin
+    	         --------
+		 --------
+		 end
+	 endgenerate
+
+</details>
+
+<details>
+<summary> Lab- For and For Generate </summary>
+
+**Example-1**<br />
+Here for loop is used to design a 4:1 mux. This can also be written using case or if else block, however, for a large size mux, only for loop model is feasible.
+
+	module mux_generate (input i0 , input i1, input i2 , input i3 , input [1:0] sel  , output reg y);
+		wire [3:0] i_int;
+		assign i_int = {i3,i2,i1,i0};
+		integer k;
+	always @ (*)
+		begin
+		for(k = 0; k < 4; k=k+1) begin
+			if(k == sel)
+			y = i_int[k];
+			end
+		end
+	endmodule
+
+**Simulation**
+![Screenshot from 2023-08-14 12-04-26](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/6bca3f48-ae49-4727-815a-ced73a666594)
+
+**Synthesis**
+
+![Screenshot from 2023-08-14 12-13-23](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/071ce810-1203-48aa-adc6-a3937a357141)
+
+**Example-2**
+
+	module demux_case (output o0 , output o1, output o2 , output o3, output o4, output o5, output o6 , output o7 , input [2:0] sel  , input i);
+	reg [7:0]y_int;
+	assign {o7,o6,o5,o4,o3,o2,o1,o0} = y_int;
+	integer k;
+	always @ (*)
+	begin
+	y_int = 8'b0;
+	case(sel)
+		3'b000 : y_int[0] = i;
+		3'b001 : y_int[1] = i;
+		3'b010 : y_int[2] = i;
+		3'b011 : y_int[3] = i;
+		3'b100 : y_int[4] = i;
+		3'b101 : y_int[5] = i;
+		3'b110 : y_int[6] = i;
+		3'b111 : y_int[7] = i;
+	endcase
+	end
+	endmodule
+
+**Simulation**
+
+![Screenshot from 2023-08-14 12-48-27](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/d9e11492-1154-4b1b-b648-c1e91aed1adb)
+
+**Synthesis**
+![Screenshot from 2023-08-14 12-50-28](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/b230977f-28ea-4e50-ae41-d9cefbb501c0)
+
+**Netlist Simulation**
+![Screenshot from 2023-08-14 15-22-34](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/131543c0-bdfe-4875-b17f-a04b8cc69767)
+
+**Example-3**
+
+The code in above example is big and also there is a chance of human error wile writing the code. However, using for loop as shown below, this drawback can be elimiated to a great extent.
+
+	module demux_generate (output o0 , output o1, output o2 , output o3, output o4, output o5, output o6 , output o7 , input [2:0] sel  , input i);
+	reg [7:0]y_int;
+	assign {o7,o6,o5,o4,o3,o2,o1,o0} = y_int;
+	integer k;
+	always @ (*)
+	begin
+		y_int = 8'b0;
+		for(k = 0; k < 8; k++) begin
+			if(k == sel)
+			y_int[k] = i;
+		end
+	end
+	endmodule
+
+**Simulation**
+
+![Screenshot from 2023-08-14 12-27-46](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/760aa94a-eeda-4090-ac4f-f7914a890888)
+
+**Synthesis**
+![Screenshot from 2023-08-14 13-00-32](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/dc59cc69-eb3d-464c-a5ae-3c2e729a6564)
+
+**Netlist Simulation**
+![Screenshot from 2023-08-14 15-25-32](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/51c4e2ca-f818-4515-b0ec-a5a4100ea16f)
+
+**Example-4**
+
+In this Ripple carry adder example, unlike instantiating fulladder for 8 times, generate for loop is used to instantiate the fulladder for 7 times and only for first full adder, it is instantiated seperately. Using the same code, just by changing bus sizes and condition of for loop, we can design any required size of ripple carry adder.
+
+	module rca (input [7:0] num1 , input [7:0] num2 , output [8:0] sum);
+	wire [7:0] int_sum;
+	wire [7:0]int_co;
+
+	genvar i;
+	generate
+		for (i = 1 ; i < 8; i=i+1) begin
+			fa u_fa_1 (.a(num1[i]),.b(num2[i]),.c(int_co[i-1]),.co(int_co[i]),.sum(int_sum[i]));
+		end
+
+	endgenerate
+	fa u_fa_0 (.a(num1[0]),.b(num2[0]),.c(1'b0),.co(int_co[0]),.sum(int_sum[0]));
+
+
+	assign sum[7:0] = int_sum;
+	assign sum[8] = int_co[7];
+	endmodule
+
+	module fa (input a , input b , input c, output co , output sum);
+	endmodule
+
+**Simulation**
+
+![Screenshot from 2023-08-14 15-30-33](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/ee2dc5e2-0ad5-4932-9c9c-ea450a33cc7b)
+
+**Synthesis**
+
+![Screenshot from 2023-08-14 15-35-16](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/26a2ff57-af19-4859-952c-da17fdc18bc9)
+
+**Netlist Simulation**
+
+![Screenshot from 2023-08-14 15-37-47](https://github.com/NSampathIIITB/Physical_Design_of_ASIC_IIIT-B/assets/141038460/4e653989-b57c-4296-8d38-20b20ea586f0)
+ 
  
 </details>
 
